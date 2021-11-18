@@ -150,7 +150,7 @@ class DevicePreview extends React.PureComponent<Props, State> {
     return (
       <div
         className={classnames(css(isEmbedded ? styles.embedded : styles.container), className)}
-        style={{ width }}>
+        style={{ width: width * 4 }}>
         {isEmbedded ? null : (
           <div className={css(styles.header)}>
             <ToggleButtons
@@ -195,18 +195,83 @@ class DevicePreview extends React.PureComponent<Props, State> {
           />
         )}
         {(platform === 'ios' || platform === 'android') && (
-          <AppetizeFrame
-            width={width}
-            sdkVersion={sdkVersion}
-            experienceURL={experienceURL}
-            platform={platform}
-            isEmbedded={isEmbedded}
-            payerCode={payerCode}
-            isPopupOpen={isPopupOpen}
-            onPopupUrl={this.handlePopupUrl}
-            onShowModal={onShowModal}
-            onAppLaunch={onAppLaunch}
-          />
+          <div style={{ display: 'flex', flexDirection: 'column' }}>
+            <div style={{ display: 'flex' }}>
+              <AppetizeFrame
+                width={width * 1.5}
+                sdkVersion={sdkVersion}
+                experienceURL={experienceURL}
+                platform={platform}
+                isEmbedded={isEmbedded}
+                payerCode={payerCode}
+                isPopupOpen={isPopupOpen}
+                onPopupUrl={this.handlePopupUrl}
+                onShowModal={onShowModal}
+                onAppLaunch={onAppLaunch}
+                device={platform === 'ios' ? 'iphone8' : 'nexus5'}
+              />
+              <AppetizeFrame
+                width={width * 1.5}
+                sdkVersion={sdkVersion}
+                experienceURL={experienceURL}
+                platform={platform}
+                isEmbedded={isEmbedded}
+                payerCode={payerCode}
+                isPopupOpen={isPopupOpen}
+                onPopupUrl={this.handlePopupUrl}
+                onShowModal={onShowModal}
+                onAppLaunch={onAppLaunch}
+                device={platform === 'ios' ? 'iphone11pro' : 'pixel4'}
+              />
+              <AppetizeFrame
+                height={platform === 'ios' ? 750 : 1000}
+                width={width * 2}
+                sdkVersion={sdkVersion}
+                experienceURL={experienceURL}
+                platform={platform}
+                isEmbedded={isEmbedded}
+                payerCode={payerCode}
+                isPopupOpen={isPopupOpen}
+                onPopupUrl={this.handlePopupUrl}
+                onShowModal={onShowModal}
+                onAppLaunch={onAppLaunch}
+                device={platform === 'ios' ? 'iphone11promax' : 'pixel4xl'}
+              />
+            </div>
+            <div style={{ display: 'flex', flexDirection: 'column' }}>
+              <AppetizeFrame
+                height={800}
+                width={width * 3}
+                sdkVersion={sdkVersion}
+                experienceURL={experienceURL}
+                platform={platform}
+                isEmbedded={isEmbedded}
+                payerCode={payerCode}
+                isPopupOpen={isPopupOpen}
+                onPopupUrl={this.handlePopupUrl}
+                onShowModal={onShowModal}
+                onAppLaunch={onAppLaunch}
+                device={platform === 'ios' ? 'ipadair2' : 'nexus9'}
+                orientation="landscape"
+              />
+              {platform === 'android' && (
+                <AppetizeFrame
+                  width={width * 3}
+                  sdkVersion={sdkVersion}
+                  experienceURL={experienceURL}
+                  platform={platform}
+                  isEmbedded={isEmbedded}
+                  payerCode={payerCode}
+                  isPopupOpen={isPopupOpen}
+                  onPopupUrl={this.handlePopupUrl}
+                  onShowModal={onShowModal}
+                  onAppLaunch={onAppLaunch}
+                  device="galaxytabs7"
+                  orientation="landscape"
+                />
+              )}
+            </div>
+          </div>
         )}
       </div>
     );

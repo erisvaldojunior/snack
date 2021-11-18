@@ -11,6 +11,8 @@ type Props = {
   scale?: number;
   payerCode?: string;
   deviceColor?: 'black' | 'white';
+  device?: string;
+  orientation?: string;
 };
 
 export default function constructAppetizeURL({
@@ -22,18 +24,22 @@ export default function constructAppetizeURL({
   payerCode,
   previewQueue,
   deviceColor = 'black',
+  device,
+  orientation,
 }: Props) {
+  const defaultDevice = platform === 'ios' ? 'iphone8' : 'pixel4';
+
   const appetizeOptions = {
     screenOnly,
     scale,
     autoplay: !!autoplay,
     embed: true,
-    device: platform === 'ios' ? 'iphone12' : 'pixel4',
+    device: device || defaultDevice,
     launchUrl: platform === 'android' ? experienceURL : undefined,
     xdocMsg: true,
     deviceColor,
     xDocMsg: true,
-    orientation: 'portrait',
+    orientation: orientation || 'portrait',
     debug: true,
     pc: payerCode,
   };

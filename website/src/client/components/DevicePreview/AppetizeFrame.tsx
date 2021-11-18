@@ -14,6 +14,7 @@ import Button from '../shared/Button';
 import ButtonLink from '../shared/ButtonLink';
 
 type Props = AuthProps & {
+  height?: number;
   width: number;
   sdkVersion: SDKVersion;
   experienceURL: string;
@@ -25,6 +26,8 @@ type Props = AuthProps & {
   onShowModal: (modal: EditorModal) => void;
   onAppLaunch?: () => void;
   theme: ThemeName;
+  device?: string;
+  orientation?: string;
 };
 
 type AppetizeStatus =
@@ -53,7 +56,8 @@ type State = {
 
 class AppetizeFrame extends React.PureComponent<Props, State> {
   private static getAppetizeURL(props: Props, autoplay: boolean) {
-    const { experienceURL, platform, isEmbedded, payerCode, viewer, theme } = props;
+    const { experienceURL, platform, isEmbedded, payerCode, viewer, theme, device, orientation } =
+      props;
     return constructAppetizeURL({
       experienceURL,
       autoplay,
@@ -62,6 +66,8 @@ class AppetizeFrame extends React.PureComponent<Props, State> {
       deviceColor: theme === 'dark' ? 'white' : 'black',
       scale: platform === 'android' ? (isEmbedded ? 73 : 81) : isEmbedded ? 66 : 73,
       payerCode: viewer?.user_metadata?.appetize_code ?? payerCode,
+      device: device,
+      orientation: orientation,
     });
   }
 
@@ -259,13 +265,20 @@ class AppetizeFrame extends React.PureComponent<Props, State> {
 
   render() {
     const { appetizeStatus, payerCodeFormStatus, viewer, appetizeURL, platform } = this.state;
-    const { width, isEmbedded, isPopupOpen } = this.props;
+    const { height, width, isEmbedded, isPopupOpen } = this.props;
 
     return (
       <>
         <div
           className={css(isEmbedded ? styles.containerEmbedded : styles.container)}
-          style={{ width: isEmbedded ? width : width - 10 }}>
+          style={
+            height
+              ? {
+                  height: isEmbedded ? height - 60 : height,
+                  width: isEmbedded ? width : width - 10,
+                }
+              : { width: isEmbedded ? width : width - 10 }
+          }>
           <iframe
             ref={this.iframe}
             key={appetizeURL}
@@ -300,7 +313,7 @@ class AppetizeFrame extends React.PureComponent<Props, State> {
             </div>
           ) : null}
         </div>
-        {appetizeStatus.type === 'queued' ? (
+        {/*appetizeStatus.type === 'queued' ? (
           <div className={css(styles.queueModal, styles.centered)}>
             <div className={css(styles.queueModalContent)}>
               {isEmbedded ? (
@@ -367,7 +380,7 @@ class AppetizeFrame extends React.PureComponent<Props, State> {
               </ButtonLink>
             </div>
           </div>
-        ) : null}
+                    ) : null*/}
       </>
     );
   }
